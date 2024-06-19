@@ -3,6 +3,15 @@
 #include<string.h>
 #include<conio.h>
 
+#include "macro.h"
+inline void SYSTEM_CLS()
+{
+    IFDEF(_WIN64, system("cls"));
+    IFDEF(__linux__
+              IFDEF(AUTO_TEST, printf("\n===== clear ======\n"));
+          IFNDEF(AUTO_TEST, system("clear"));)
+}
+
 #define amount 20
 
 using namespace std;
@@ -63,6 +72,9 @@ void savefile(struct s4 *list4){
     fclose(fp);
     printf("    \n\n【信息已输出至费用文件fy.dat，请查看！按任意键返回！】\n");
     getch();
+    #ifdef __linux__
+    getch();
+#endif // DEBUG
 }
 
 void calculate(struct s1 *list1,struct s2 *list2,struct s4 *list4){
@@ -154,6 +166,9 @@ void searchmoney(struct s3 *list3,struct s4 *list4){    //查询话费
     printf("    %s          %s        %4.2lf        %4.2lf          %4.2lf\n",list3[i].name,ch,sum1,sum2,sum);
     printf("\n按任意键返回！");
     getch();
+    #ifdef __linux__
+    getch();
+#endif // DEBUG
 }
 
 void searchbill(struct s1 *list1,struct s3 *list3,struct s4 *list4){    //话费账单查询
@@ -191,6 +206,9 @@ void searchbill(struct s1 *list1,struct s3 *list3,struct s4 *list4){    //话费
     printf("    您的总通话时长为%d秒，其中本地通话时长为%d秒，长途通话时长为%d秒\n",sum,sum1,sum2);
     printf("    按任意键返回！");
     getch();
+    #ifdef __linux__
+    getch();
+#endif // DEBUG
 }
 
 void menu(){
@@ -244,7 +262,7 @@ int main(){
     struct s3 list3[5];
     struct s4 list4[20];
     while(1){
-        system("cls");
+        SYSTEM_CLS();
         menu();
         printf("请选择：");
         scanf("%d",&choice);
@@ -284,9 +302,10 @@ int main(){
             savefile(list4);
             break;
         case 0:
-            system("cls");
-            printf("\n\n*************谢谢使用！****************");
+            SYSTEM_CLS();
+            printf("*************谢谢使用！****************\n");
             getch();
+            return 0;
             break;
         default:
             printf("您的输入有误，请重新输入！\n");

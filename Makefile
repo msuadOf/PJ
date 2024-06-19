@@ -1,10 +1,10 @@
-TARGET?=a1 a2 a3 a4 a5# b1 b2
+TARGET?=a1 a2 a3 a4 a5 b1 b2
 all: $(patsubst %,all_%,$(TARGET))
 
 all_%:
 	@$(MAKE) -C $*
 
-run: $(patsubst %,all_%,$(TARGET))
+run: $(patsubst %,run_%,$(TARGET))
 
 run_%:
 	@$(MAKE) -C $* run
