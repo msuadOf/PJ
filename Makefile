@@ -54,3 +54,5 @@ cp:
 	cp conio.h a5
 	cp conio.h b1
 	cp conio.h b2
+
+include scripts/report.mk
